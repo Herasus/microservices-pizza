@@ -1,0 +1,45 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Créer ingrédient</h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="ingredientForm" (ngSubmit)="onSubmitIngredientForm()">
+              <div class="row">
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <input matInput formControlName="name" placeholder="Nom" required>
+                    <mat-error *ngIf="ingredientForm.controls.name.invalid">{{getErrorMessage('name', '', 'nom')}}</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-5">
+                  <mat-form-field>
+                    <ngx-mat-file-input #removableInput formControlName="photo" placeholder="Add photo" (change)="readURL($event);"></ngx-mat-file-input>
+                    <button mat-icon-button matSuffix *ngIf="!removableInput.empty" (click)="removableInput.clear($event); imageIngredientSrc = undefined;">
+                      <mat-icon>clear</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+              </div>
+              <button mat-raised-button type="submit" class="btn btn-primary pull-right" [disabled]="ingredientForm.invalid">Créer</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" id="image-preview">
+        <div class="card" *ngIf="imageIngredientSrc">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Image preview</h4>
+          </div>
+          <div class="card-body">
+            <img [src]="imageIngredientSrc" alt="preview" style="max-width: 22vw">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

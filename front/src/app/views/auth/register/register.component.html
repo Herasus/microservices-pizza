@@ -1,0 +1,49 @@
+<div class="app-register">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-8 col-md-6">
+        <h2 class="card-title text-center mt-4 mb-4">INSCRIPTION</h2>
+        <app-alert></app-alert>
+        <form [formGroup]="startForm" (ngSubmit)="register()" class="pizza-form">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="email">Nom</label>
+                <input type="text" class="form-control" placeholder="Votre nom" id="lastName" name="lastName" formControlName="lastName" required [class.is-invalid]="!(startForm.controls.lastName.valid || (startForm.controls.lastName.pristine && !submitted))">
+                <small [hidden]="startForm.controls.lastName.valid || (startForm.controls.lastName.pristine && !submitted)">
+                  Vous devez entrer votre nom.
+                </small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="email">Prénom</label>
+                <input type="text" class="form-control" placeholder="Votre prénom" id="firstName" name="firstName" formControlName="firstName" required [class.is-invalid]="!(startForm.controls.firstName.valid || (startForm.controls.firstName.pristine && !submitted))">
+                <small [hidden]="startForm.controls.firstName.valid || (startForm.controls.firstName.pristine && !submitted)">
+                  Vous devez entrer votre prénom.
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Adresse e-mail</label>
+            <input type="email" class="form-control" id="email" name="email" formControlName="email" placeholder="Votre adresse e-mail" required [class.is-invalid]="!(startForm.controls.email.valid || (startForm.controls.email.pristine && !submitted))">
+            <small [hidden]="startForm.controls.email.valid || (startForm.controls.email.pristine && !submitted)">
+              L'adresse e-mail est obligatoire.
+            </small>
+          </div>
+          <div class="form-group">
+            <label for="password">Mot de passe</label>
+            <input type="password" class="form-control" id="password" name="password" formControlName="password" placeholder="Votre mot de passe" required [class.is-invalid]="!(startForm.controls.password.valid || (startForm.controls.password.pristine && !submitted))">
+            <small [hidden]="startForm.controls.password.valid || (startForm.controls.password.pristine && !submitted)">
+              Le mot de passe ne peut pas être vide.
+            </small>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="loading"><i class="fa fa-spin fa-circle-notch mr-2" [hidden]="!loading"></i> S'inscrire</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

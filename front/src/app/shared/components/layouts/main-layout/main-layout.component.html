@@ -1,0 +1,90 @@
+<div class="app-main-wrap">
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand" routerLink="/"><span class="flaticon-pizza-1 mr-1"></span>Pizza<small class="d-inline-block" style="font-size: 20px">FAST</small></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" ngbDropdown>
+                    <a class="nav-link" id="cartDropdownMenu" ngbDropdownToggle><i class="far fa-shopping-cart mr-1"></i> {{ cart.getNumberOfPizzas() }} pizza{{ (cart.getNumberOfPizzas() > 1) ? 's' : '' }}</a>
+                        <div ngbDropdownMenu class="dropdown-menu cart-dropdown-menu" aria-labelledby="cartDropdownMenu">
+                            <div class="dropdown-pizza-item" *ngFor="let pizza of cart.cart">
+                                <img [src]="baseUrl + '/files/pizzas/' + pizza.path" alt="Pizza">
+                                <div class="ml-2 dropdown-pizza-info">
+                                    <div class="pizza-name">{{ pizza.name }}</div>
+                                    <div class="pizza-quantity">
+                                        <ng-container *ngFor="let type of cart.sizes">
+                                            <div class="pizza-type" *ngIf="pizza.quantity[type.type]">
+                                                {{ pizza.quantity[type.type] }}x {{ type.name }}
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="text-right">{{ cart.getPizzaPrice(pizza) | currency:'EUR' }}</div>
+                            </div>
+                            <div class="d-flex mt-2">
+                                <div class="font-weight-bold">Total</div>
+                                <div class="text-right ml-auto">{{ cart.getTotalPrice() | currency:'EUR' }}</div>
+                            </div>
+                            <div class="dropdown-pizza-checkout mt-2">
+                                <a routerLink="/cart" class="btn btn-block btn-primary">Voir la commande</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"><a routerLink="/" class="nav-link">Accueil</a></li>
+                    <li class="nav-item" routerLinkActive="active"><a routerLink="/pizzas" class="nav-link">Menu</a></li>
+                    <li *ngIf="auth.authenticated" class="nav-item" routerLinkActive="active"><a routerLink="/profile" class="nav-link">Profil</a></li>
+                    <li *ngIf="auth.authenticated" class="nav-item"><a (click)="$event.preventDefault(); signout(); router.navigateByUrl('')" class="nav-link" style="cursor: pointer">Déconnexion</a></li>
+                    <li *ngIf="!auth.authenticated" class="nav-item" routerLinkActive="active"><a class="nav-link" routerLink="/login">Connexion</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END nav -->
+
+        <router-outlet></router-outlet>
+    </div>
+
+
+    <footer class="ftco-footer ftco-section img">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-5 mb-md-5">
+                        <div class="ftco-footer-widget mb-4">
+                            <h2 class="ftco-heading-2">À propos</h2>
+                            <p>PizzaFast est un site fictif de pizzeria digitalisée 2.0 créé pour le cours d'architecture micro-services.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 mb-5 mb-md-5"></div>
+                    <div class="col-lg-2 col-md-6 mb-5 mb-md-5">
+                        <div class="ftco-footer-widget mb-4 ml-md-4">
+                            <h2 class="ftco-heading-2">Services</h2>
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="py-2 d-block">Cuisine</a></li>
+                                <li><a href="#" class="py-2 d-block">Livraison</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 mb-5 mb-md-5"></div>
+                    <div class="col-lg-3 col-md-6 mb-5 mb-md-5">
+                        <div class="ftco-footer-widget mb-4">
+                            <h2 class="ftco-heading-2">Contact</h2>
+                            <div class="block-23 mb-3">
+                                <ul>
+                                    <li><span class="icon icon-map-marker"></span><span class="text">23 Allée des Jonquilles, Clichy-sous-Bois, 93390</span></li>
+                                    <li><a href="#"><span class="icon icon-phone"></span><span class="text">08.24.24.79.07</span></a></li>
+                                    <li><a href="#"><span class="icon icon-envelope"></span><span class="text">coquelicot-vener-du93@yahoo.com</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <p>Copyright &copy; 2021 All rights reserved | ESIEE Paris by <a href="" target="_blank"> TRACE Team</a></p>
+                    </div>
+                </div>
+            </div>
+    </footer>

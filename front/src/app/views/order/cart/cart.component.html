@@ -1,0 +1,80 @@
+<div class="container app-cart mb-4">
+    <div class="row justify-content-md-center">
+        <div class="col-12 heading-section text-center mt-4">
+            <h2 class="mb-4">Votre commande</h2>
+            <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+            <p class="mt-5"></p>
+        </div>
+        <div class="col-md-8">
+            <app-alert></app-alert>
+        </div>
+        <div class="col-md-8">
+            <div class="pizza-item" *ngFor="let pizza of cart.cart">
+                <a [routerLink]="'/pizzas/' + pizza.id"><img [src]="baseUrl + '/files/pizzas/' + pizza.path" alt="Pizza"></a>
+                <div class="ml-4 pizza-info">
+                    <div class="pizza-name"><a [routerLink]="'/pizzas/' + pizza.id">{{ pizza.name }}</a></div>
+                    <div class="pizza-quantity">
+                        <ng-container *ngFor="let type of cart.sizes">
+                            <div class="pizza-type">
+                                <div style="min-width: 100px; display: inline-block;">{{ type.name }}</div>
+                                <br *ngIf="isMobileMenu()"/>
+                                <button class="btn btn-qty btn-secondary" (click)="cart.remove(pizza, type.type)" [disabled]="pizza.quantity[type.type] == 0"><i class="far fa-minus"></i></button>
+                                <div style="min-width: 30px; display: inline-block; text-align: center;">{{ pizza.quantity[type.type] }}</div>
+                                <button class="btn btn-qty btn-secondary" (click)="cart.add(pizza, type.type)"><i class="far fa-plus"></i></button>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="text-right">{{ cart.getPizzaPrice(pizza) | currency:'EUR' }}</div>
+            </div>
+            <div class="pizza-total d-flex mt-2">
+                <div class="font-weight-bold">Total</div>
+                <div class="text-right ml-auto">{{ cart.getTotalPrice() | currency:'EUR' }}</div>
+            </div>
+            <div class="pizza-account d-flex mt-2" *ngIf="auth.authenticated">
+                <div class="font-weight-bold">Votre solde</div>
+                <div class="text-right ml-auto">{{ auth.balance| currency:'EUR' }}</div>
+            </div>
+            <div *ngIf="!cart.isEmpty() && auth.authenticated && auth.balance >= cart.getTotalPrice()" class="mt-4">
+                <div class="mb-4">
+                    <strong>Pour passer votre commande, entrez votre adresse de livraison.</strong>
+                </div>
+                <form [formGroup]="startForm" (ngSubmit)="order()">
+                    <div class="form-group">
+                        <label for="address">Votre adresse</label>
+                        <input type="text" formControlName="address" class="form-control" id="address" placeholder="Entrez votre adresse" [class.is-invalid]="!(startForm.controls.address.valid || (startForm.controls.address.pristine && !submitted))">
+                        <small [hidden]="startForm.controls.address.valid || (startForm.controls.address.pristine && !submitted)">
+                            L'adresse est obligatoire.
+                        </small>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="inputZip">Code postal</label>
+                            <input type="text" class="form-control" formControlName="zip" id="zip" placeholder="Code postal" [class.is-invalid]="!(startForm.controls.zip.valid || (startForm.controls.zip.pristine && !submitted))">
+                            <small [hidden]="startForm.controls.zip.valid || (startForm.controls.zip.pristine && !submitted)">
+                                Code postal obligatoire.
+                            </small>
+                        </div>
+                        <div class="form-group col-md-9">
+                            <label for="city">Ville</label>
+                            <input type="text" class="form-control" formControlName="city" id="city" placeholder="Entrez votre ville" [class.is-invalid]="!(startForm.controls.city.valid || (startForm.controls.city.pristine && !submitted))">
+                            <small [hidden]="startForm.controls.city.valid || (startForm.controls.city.pristine && !submitted)">
+                                La ville est obligatoire.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="pizza-checkout">
+                        <button type="submit" class="btn btn-primary" [disabled]="loading"><i class="far fa-spin fa-circle-notch" *ngIf="loading"></i> Commander</button>
+                    </div>
+                </form>
+            </div>
+            <div class="pizza-no-funds" *ngIf="!cart.isEmpty() && auth.authenticated && auth.balance < cart.getTotalPrice()">
+                Vous n'avez pas assez d'argent sur votre compte. Rechargez-le pour continuer la commande.
+            </div>
+            <div class="pizza-checkout mt-2" *ngIf="!cart.isEmpty()">
+                <a *ngIf="!auth.authenticated" routerLink="/login" class="btn btn-primary">Connectez-vous pour continuer</a>
+                <a *ngIf="auth.authenticated && auth.balance < cart.getTotalPrice()" routerLink="/profile" class="btn btn-primary">Ajouter de l'argent dans votre compte</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+.app-cart {
+    color: #f0f0f0;
+}
+
+.pizza-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    
+    img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .pizza-name {
+        font-weight: bold;
+    }
+
+    .btn-qty {
+        font-size: 0.7em;
+        padding: 0 3px;
+        margin-right: 4px;
+    }
+}
+
+.pizza-info {
+    flex-grow: 1;
+}
+
+.pizza-total, .pizza-account {
+    font-size: 1.2em;
+}
+
+.pizza-checkout {
+    text-align: center;
+}
+
+.pizza-checkout .btn {
+    font-size: 1.2em;
+}

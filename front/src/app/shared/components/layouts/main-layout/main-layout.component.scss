@@ -1,0 +1,31 @@
+#cartDropdownMenu {
+    cursor: pointer;
+}
+
+.cart-dropdown-menu {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    width: 100vw;
+    max-width: 400px;
+    background-color: #121618 !important;
+    color: #f0f0f0;
+    border-radius: unset;
+}
+
+.dropdown-pizza-item {
+    display: flex;
+    align-items: center;
+    
+    img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .pizza-name {
+        font-weight: bold;
+    }
+}
+
+.dropdown-pizza-info {
+    flex-grow: 1;
+}

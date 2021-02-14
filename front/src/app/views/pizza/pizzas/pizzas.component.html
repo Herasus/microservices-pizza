@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 heading-section text-center mt-4">
+            <h2 class="mb-4">Nos pizzas</h2>
+            <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+            <p class="mt-5">La formule est simple, plus vous achetez de pizzas, moins c'est cher ! Alors n'hésitez plus et achète !</p>
+        </div>
+        <div class="col-md-4 text-center mb-2" *ngFor="let pizza of pizzas">
+            <div class="menu-wrap">
+                <a [routerLink]="'/pizzas/' + pizza.id" class="menu-img img mb-4" [ngStyle]="{ 'background-image': 'url(' + baseUrl + '/files/pizzas/' + pizza.path + ')' }"></a>
+                <div class="text">
+                    <h3><a [routerLink]="'/pizzas/' + pizza.id">{{ pizza.name }}</a></h3>
+                    <p>{{ pizza.description | truncate:[150] }}</p>
+                    <p class="price"><span>{{ pizza.basePrice | currency:'EUR' }}</span></p>
+                    <p><a [routerLink]="'/pizzas/' + pizza.id" class="btn btn-white btn-outline-white">Voir</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

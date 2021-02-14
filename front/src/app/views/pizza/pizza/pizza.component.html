@@ -1,0 +1,47 @@
+<div class="container" *ngIf="pizza.id">
+    <div class="row">
+        <div class="col mb-4 mt-4">
+            <div class="d-flex">
+                <div style="flex-grow: 1;">
+                    <h2>{{ pizza.name }}</h2>
+                </div>
+                <div>
+                    <h2>{{ pizza.basePrice | currency:'EUR' }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div>
+                <img [src]="baseUrl + '/files/pizzas/' + pizza.path" [alt]="pizza.name" class="img-fluid">
+            </div>
+            <div class="mt-4">
+                <div class="form-group">
+                    <label for="size">Sélectionnez la taille</label>
+                    <select name="size" id="size" class="form-control" [(ngModel)]="selectedSize">
+                        <option value="small">Naine</option>
+                        <option value="medium" selected>Humaine</option>
+                        <option value="large">Ogresse</option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <h4>Prix : {{ getSelectedSizePrice() | currency:'EUR' }}</h4>
+                </div>
+                <button class="btn btn-primary btn-lg btn-block" (click)="addToCart()"><i class="far fa-cart-plus"></i> Ajouter au panier</button>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h4>Description</h4>
+            <p>
+                {{ pizza.description }}
+            </p>
+            <h4>Ingrédients</h4>
+            <div>
+                <div class="ingredient-item" *ngFor="let ingredient of pizza.ingredients">
+                    <img [src]="baseUrl + '/files/ingredients/' + ingredient.path" alt="" class="ingredient" [ngbTooltip]="ingredient.name">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

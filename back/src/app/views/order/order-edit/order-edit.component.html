@@ -1,0 +1,41 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Assigner livreur et véhicule</h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="deliveryForm" (ngSubmit)="onSubmitDeliveryForm()">
+              <div class="row">
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <mat-select matSelect placeholder="Livreur" formControlName="delivery_man_id" required>
+                      <mat-option *ngFor="let deliver of avalaibleDelivers" [value]="deliver.id" [disabled]="deliver.busy">
+                        {{deliver.firstName}} {{deliver.lastName}} {{deliver.busy ? ' (occupé)' : ''}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="deliveryForm.controls.delivery_man_id.invalid">{{getErrorMessage('delivery_man_id', '', '')}}</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <mat-select matSelect placeholder="Véhicule" formControlName="vehicle_id" required>
+                      <mat-option *ngFor="let vehicle of avalaibleVehicles" [value]="vehicle.id" [disabled]="vehicle.busy">
+                        {{vehicle.type}} - {{vehicle.plate}} {{vehicle.busy ? ' (occupé)' : ''}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="deliveryForm.controls.vehicle_id.invalid">{{getErrorMessage('vehicle_id', '', '')}}</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <button mat-raised-button type="submit" class="btn btn-primary pull-right" [disabled]="deliveryForm.invalid">Assigner</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

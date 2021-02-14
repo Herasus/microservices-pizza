@@ -1,0 +1,33 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Créer livreur</h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="livreurForm" (ngSubmit)="onSubmitLivreurForm()">
+              <div class="row">
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <input matInput formControlName="firstName" placeholder="Prénom" required>
+                    <mat-error *ngIf="livreurForm.controls.firstName.invalid">{{getErrorMessage('firstName', '', 'prénom')}}</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <input matInput formControlName="lastName" placeholder="Nom" required>
+                    <mat-error *ngIf="livreurForm.controls.lastName.invalid">{{getErrorMessage('lastName', '', 'nom')}}</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <button mat-raised-button type="submit" class="btn btn-primary pull-right" [disabled]="livreurForm.invalid">Créer</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

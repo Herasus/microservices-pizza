@@ -1,0 +1,15 @@
+$color_1: white;
+$background_color_1: #292b2c;
+$background_color_2: #5cb3fd;
+
+.modal-content {
+  background-color: $background_color_1;
+  color: $color_1;
+}
+.close {
+  color: $color_1;
+}
+.light-blue-backdrop {
+  background-color: $background_color_2;
+}
+

@@ -1,0 +1,39 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Créer véhicule</h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="vehiculeForm" (ngSubmit)="onSubmitVehiculeForm()">
+              <div class="row">
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <mat-select matSelect placeholder="Type de véhicule" formControlName="type" required>
+                      <mat-option value="car">Voiture</mat-option>
+                      <mat-option value="motorbike">2 roues</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="vehiculeForm.controls.type.invalid">{{getErrorMessage('type', '', 'type')}}</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <input matInput formControlName="plate"
+                           pattern="[a-zA-Z0-9][a-zA-Z0-9]-[a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9]-[a-zA-Z0-9][a-zA-Z0-9]"
+                           placeholder="Plaque d'immatriculation" required>
+                    <mat-hint>Format: AA-000-AA</mat-hint>
+                    <mat-error *ngIf="vehiculeForm.controls.plate.invalid">{{getErrorMessage('plate', 'pattern', 'plaque d\'immatriculation')}}</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <button mat-raised-button type="submit" class="btn btn-primary pull-right" [disabled]="vehiculeForm.invalid">Créer</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

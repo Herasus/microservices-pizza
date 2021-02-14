@@ -1,0 +1,119 @@
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-12">
+      <app-alert></app-alert>
+    </div>
+    <div class="col-12 col-md-8">
+      <h2>Informations du compte</h2>
+      <div class="row">
+        <div class="col-4">
+          <h5>Nom :</h5>
+        </div>
+        <div class="col-8" style="font-size: 16px">
+          {{ auth.user.lastName }}
+        </div>
+        <div class="col-4">
+          <h5>Prénom :</h5>
+        </div>
+        <div class="col-8" style="font-size: 16px">
+          {{ auth.user.firstName }}
+        </div>
+        <div class="col-4">
+          <h5>Email :</h5>
+        </div>
+        <div class="col-8" style="font-size: 16px">
+          {{ auth.user.email }}
+        </div>
+        <div class="col-7 mt-3">
+          <!--              <button class="btn btn-dark float-right">Modifier</button>-->
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="row h-100">
+        <div class="col-12">
+          <h2>Solde du compte</h2>
+        </div>
+        <div class="col-12">
+          <h2 class="text-center mt-3">{{auth.balance}} €</h2>
+        </div>
+        <div class="col-12 align-self-end">
+          <button class="btn btn-dark float-right align-self-end" (click)="open(content)">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-12">
+      <h2>Liste des commandes en cours</h2>
+      <p *ngIf="pendingOrders.length == 0">0 commande en cours</p>
+      <table class="table" *ngIf="pendingOrders.length > 0">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Date de commande</th>
+            <th scope="col">Statut</th>
+            <th scope="col">Prix</th>
+            <!-- <th scope="col">Details</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of pendingOrders">
+            <td>{{order.orderDate | date:'medium'}}</td>
+            <td>{{stateToText[order.state]}}</td>
+            <td>{{order.totalPrice | currency:'EUR'}}</td>
+            <!-- <td><a href="">Details</a></td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-12">
+      <h2>Historique des commandes</h2>
+      <p *ngIf="historicOrders.length == 0">0 commande livrée</p>
+      <table class="table" *ngIf="historicOrders.length > 0">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Date de commande</th>
+            <th scope="col">Date de livraison</th>
+            <th scope="col">Adresse</th>
+            <th scope="col">Prix total</th>
+            <!-- <th scope="col">Details</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of historicOrders">
+            <td>{{order.orderDate}}</td>
+            <td>{{order.deliveryDate}}</td>
+            <td>{{order.address}}</td>
+            <td>{{order.totalPrice | currency:'EUR'}}</td>
+            <!-- <td><a href="about" target="_blank">Details</a></td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-dark" id="modal-basic-title">Ajout solde</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="saveNewBalance()">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="solde">Ajouter: </label>
+        <input id="solde" name="solde" class="form-control text-right" type="number" min="0" [(ngModel)]="addBalance">
+        <p class="text-danger" *ngIf="error">{{error}}</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-dark">Ajouter</button>
+    </div>
+  </form>
+</ng-template>

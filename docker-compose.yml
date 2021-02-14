@@ -1,0 +1,107 @@
+version: '3'
+services:
+  auth-db:
+    build: ./auth-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - './volumes/auth-db/mysql:/var/lib/mysql'
+  auth:
+    build: ./auth
+    environment:
+      - MYSQL_HOST=auth-db
+      - MYSQL_USER=pizza
+      - MYSQL_PASSWORD=pizza
+      - MYSQL_DATABASE=pizza_auth
+      - JWT_EXPIRATION=2592000
+      - JWT_SECRET=kwPXhFx9sYMjNF7ajg1qrpn2jtFUWdKa
+      - ADMIN_USER_EMAIL=admin@pizzafast.fr
+      - ADMIN_USER_PASSWORD=admin
+    ports:
+      - "4300:80"
+  pizza-db:
+    build: ./pizza-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - './volumes/pizza-db/mysql:/var/lib/mysql'
+  pizza:
+    build: ./pizza
+    environment:
+      - MYSQL_HOST=pizza-db
+      - MYSQL_USER=pizza
+      - MYSQL_PASSWORD=pizza
+      - MYSQL_DATABASE=pizza_pizza
+      - AUTH_API_URL=http://auth
+    volumes:
+      - './volumes/pizza/uploads:/usr/src/app/uploads'
+    ports:
+      - "4301:80"
+  order-db:
+    build: ./order-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - './volumes/order-db/mysql:/var/lib/mysql'
+  order:
+    build: ./order
+    environment:
+      - MYSQL_HOST=order-db
+      - MYSQL_USER=pizza
+      - MYSQL_PASSWORD=pizza
+      - MYSQL_DATABASE=pizza_order
+      - AUTH_API_URL=http://auth
+      - PIZZA_API_URL=http://pizza
+      - BANK_API_URL=http://bank
+      - BANK_USERNAME=bank
+      - BANK_PASSWORD=banque123
+    ports:
+      - "4302:80"
+  bank-db:
+    build: ./bank-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - './volumes/bank-db/mysql:/var/lib/mysql'
+  bank:
+    build: ./bank
+    environment:
+      - MYSQL_HOST=bank-db
+      - MYSQL_USER=pizza
+      - MYSQL_PASSWORD=pizza
+      - MYSQL_DATABASE=pizza_bank
+      - AUTH_API_URL=http://auth
+      - BASIC_AUTH_USERNAME=bank
+      - BASIC_AUTH_PASSWORD=banque123
+    ports:
+      - "4303:80"
+  delivery-db:
+    build: ./delivery-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - './volumes/delivery-db/mysql:/var/lib/mysql'
+  delivery:
+    build: ./delivery
+    environment:
+      - MYSQL_HOST=delivery-db
+      - MYSQL_USER=pizza
+      - MYSQL_PASSWORD=pizza
+      - MYSQL_DATABASE=pizza_delivery
+      - AUTH_API_URL=http://auth
+      - ORDER_API_URL=http://order
+    ports:
+      - "4304:80"
+  gateway:
+    build: ./gateway
+    ports:
+      - "8082:80"
+  front:
+    build: ./front
+    ports:
+      - "4305:80"
+  back:
+    build: ./back
+    ports:
+      - "4306:80"
+
