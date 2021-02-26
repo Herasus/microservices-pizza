@@ -2,6 +2,11 @@
 
 PizzaFast est un site fictif de pizzeria digitalisée 2.0 créé pour le cours d'architecture micro-services, fait en Angular, Node.js et MySQL.
 
+- Eddy MONNOT
+- Tristan LAUNÉ
+- Samuel PRAK
+- Mayur SONI
+
 ## Instructions
 
 ### Lancer l'application
@@ -16,6 +21,13 @@ Le site vitrine est accessible à l'adresse http://localhost:8082. L'administrat
 ### Identifiants administrateur
 
 Par défaut, les identifiants de connexion à l'interface d'administration sont `admin@pizzafast.fr` / `admin`.
+
+### Utiliser l'application
+
+- Se connecter d'abord sur l'interface d'administration à l'adresse http://localhost:8082/admin, avec les identifiants par défaut.
+- Créer quelques ingrédients, puis une ou plusieurs pizzas.
+- Se rendre ensuite sur le site vitrine à l'adresse http://localhost:8082/, s'inscrire, puis commander la pizza. Lorsque c'est demandé, recharger le compte bancaire avant de commander la pizza.
+- La commande apparaît maintenant dans l'interface d'administration. Créer un livreur et un véhicule, et les assigner à la commande.
 
 ## Architecture
 
@@ -82,3 +94,10 @@ Nous utilisons nginx pour créer notre API Gateway et regrouper les requêtes su
 - `/delivery` : API Livraison
 - `/bank` : API Banque
 
+## Ce qui a été ajouté depuis la présentation
+
+Depuis la présentation, nous avons ajouté plusieurs points :
+
+- Les services appellent maintenant le service d'authentification à chaque requête. Cela permet de vérifier le token JWT fourni par le client, et ainsi de vérifier qu'il est bien authentifié.
+- API Gateway : nous avons ajouté un nouveau service nginx permettant de regrouper les requêtes sur un seul service, permettant de rassembler les services sur un même domaine / port.
+- Authentification admin : nous avons rajouté une colonne `isAdmin` dans la table utilisateurs pour permettre la connexion à l'interface administration. On vérifie ensuite auprès du service authentification que l'utilisateur a bien cette permission pour les routes admin.

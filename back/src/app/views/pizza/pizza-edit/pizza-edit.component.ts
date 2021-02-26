@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {IngredientModel} from '../../../model/ingredient.model';
-import {HttpClient} from '@angular/common/http';
-import {AlertService} from '../../../services/alert.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {environment} from '../../../../environments/environment';
-import {PizzaModel} from '../../../model/pizza.model';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { IngredientModel } from '../../../model/ingredient.model';
+import { HttpClient } from '@angular/common/http';
+import { AlertService } from '../../../services/alert.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
+import { PizzaModel } from '../../../model/pizza.model';
 
 @Component({
   selector: 'app-pizza-edit',
@@ -20,7 +20,7 @@ export class PizzaEditComponent implements OnInit {
   imagePizzaSrc: string | ArrayBuffer;
 
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute,
-              private http: HttpClient, private alert: AlertService, private router: Router) { }
+    private http: HttpClient, private alert: AlertService, private router: Router) { }
 
   ngOnInit() {
     this.ingredientControl = new FormControl();
@@ -55,7 +55,7 @@ export class PizzaEditComponent implements OnInit {
       basePrice: [1, Validators.required],
       description: ['', Validators.required],
       ingredientList: this.formBuilder.array([]),
-      photo: [{ value: undefined}],
+      photo: [{ value: undefined }],
     });
   }
 
@@ -69,33 +69,31 @@ export class PizzaEditComponent implements OnInit {
     };
 
     return this.http.put(environment.pizzaApiUrl + 'pizzas/' + this.pizza.id, newPizza).toPromise()
-        .then((data) => {
-          if (formValue['photo'].files && formValue['photo'].files[0]) {
-            const formData = new FormData();
-            formData.append('image', formValue['photo'].files[0]);
-            const pizzaId = this.pizza.id;
-            console.log('pizzaId', pizzaId);
-            return this.http.post(environment.pizzaApiUrl + 'pizzas/' + pizzaId + '/image', formData).toPromise().then(res => {
-              if (res === 200) {
-                this.router.navigate(['pizza']);
-                this.alert.showNotification('bottom', 'right', 'success', 'Pizza modifiée');
-                this.alert.showNotification('bottom', 'right', 'success', 'Image téléchargée');
-              } else {
-                this.router.navigate(['pizza']);
-                this.alert.showNotification('bottom', 'right', 'success', 'Pizza modifiée');
-                this.alert.showNotification('bottom', 'right', 'danger', 'Problème lors du téléchargement de l\'image');
-              }
-            });
-          } else {
+      .then((data) => {
+        if (formValue['photo'].files && formValue['photo'].files[0]) {
+          const formData = new FormData();
+          formData.append('image', formValue['photo'].files[0]);
+          const pizzaId = this.pizza.id;
+          console.log('pizzaId', pizzaId);
+          return this.http.post(environment.pizzaApiUrl + 'pizzas/' + pizzaId + '/image', formData).toPromise().then(res => {
             this.router.navigate(['pizza']);
             this.alert.showNotification('bottom', 'right', 'success', 'Pizza modifiée');
-          }
-        });
+            this.alert.showNotification('bottom', 'right', 'success', 'Image téléchargée');
+          }).catch(() => {
+            this.router.navigate(['pizza']);
+            this.alert.showNotification('bottom', 'right', 'success', 'Pizza modifiée');
+            this.alert.showNotification('bottom', 'right', 'danger', 'Problème lors du téléchargement de l\'image');
+          })
+        } else {
+          this.router.navigate(['pizza']);
+          this.alert.showNotification('bottom', 'right', 'success', 'Pizza modifiée');
+        }
+      });
   }
 
   getErrorMessage(field: string, errorCode: string, text: string) {
     return this.pizzaForm.controls[field].hasError('required') ? 'Entrer une valeur' :
-        this.pizzaForm.controls[field].hasError(errorCode) ? 'Champ "' + text + '" non valide' : '';
+      this.pizzaForm.controls[field].hasError(errorCode) ? 'Champ "' + text + '" non valide' : '';
   }
 
   readURL(event: Event): void {

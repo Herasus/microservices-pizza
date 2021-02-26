@@ -13,3 +13,6 @@ export const PIZZA_API_URL = process.env.PIZZA_API_URL ?? '';
 export const BANK_API_URL = process.env.BANK_API_URL ?? '';
 export const BANK_USERNAME = process.env.BANK_USERNAME ?? '';
 export const BANK_PASSWORD = process.env.BANK_PASSWORD ?? '';
+
+export const BASIC_AUTH_USERNAME = process.env.BASIC_AUTH_USERNAME ?? '';
+export const BASIC_AUTH_PASSWORD = process.env.BASIC_AUTH_PASSWORD ?? '';

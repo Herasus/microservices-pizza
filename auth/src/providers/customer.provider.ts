@@ -19,7 +19,13 @@ export interface CustomerProviderInterface {
    * Creates a customer
    * @param customer The customer object
    */
-  create(customer: Omit<Customer, 'id'>): Promise<Customer>
+  create(customer: Omit<Customer, 'id'>): Promise<Customer>;
+
+  /**
+   * Creates a customer
+   * @param customer The customer object
+   */
+  updatePassword(id: number, password: string): Promise<void>;
 }
 
 export class CustomerProvider
@@ -72,6 +78,17 @@ implements CustomerProviderInterface {
     return plainToClass(Customer, {
       id,
       ...customer,
+    });
+  }
+
+  async updatePassword(id: number, password: string): Promise<void> {
+    await this.mysql.queryPromise(`
+      UPDATE Customer
+      SET password = :password
+      WHERE id = :id
+    `, {
+      password,
+      id,
     });
   }
 }

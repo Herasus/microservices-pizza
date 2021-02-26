@@ -103,6 +103,6 @@ ALTER TABLE `vehicle`
 -- Contraintes pour la table `allocation`
 --
 ALTER TABLE `allocation`
-  ADD CONSTRAINT `allocation_ibfk_1` FOREIGN KEY (`deliveryManId`) REFERENCES `deliveryman` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `allocation_ibfk_2` FOREIGN KEY (`vehicleId`) REFERENCES `vehicle` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `allocation_ibfk_1` FOREIGN KEY (`deliveryManId`) REFERENCES `deliveryman` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `allocation_ibfk_2` FOREIGN KEY (`vehicleId`) REFERENCES `vehicle` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;

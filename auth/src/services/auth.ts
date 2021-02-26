@@ -15,6 +15,8 @@ export class AuthService {
   async initAdminUser() {
     if (!ADMIN_USER_EMAIL || !ADMIN_USER_PASSWORD) return;
 
+    const hashed = bcrypt.hashSync(ADMIN_USER_PASSWORD, 10);
+
     const user = await this.customerProvider.findByEmail(ADMIN_USER_EMAIL);
     if (!user) {
       // Create the admin user
@@ -22,9 +24,12 @@ export class AuthService {
         firstName: 'Admin',
         lastName: 'Admin',
         email: ADMIN_USER_EMAIL,
-        password: bcrypt.hashSync(ADMIN_USER_PASSWORD, 10),
+        password: hashed,
         isAdmin: true,
       });
+    } else {
+      // Update the password
+      await this.customerProvider.updatePassword(user.id, hashed);
     }
   }
 

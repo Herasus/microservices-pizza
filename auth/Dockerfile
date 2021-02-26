@@ -10,4 +10,7 @@ COPY . .
 RUN npm run build
 EXPOSE 80
 
-CMD ["npm", "start"]
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
+RUN chmod +x /wait
+
+CMD /wait && npm start

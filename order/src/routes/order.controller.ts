@@ -3,6 +3,7 @@ import { PutOrderDto } from '../dto/put-order.dto';
 import { SetOrderStateDto } from '../dto/set-order-state.dto';
 import { orderService } from '../include';
 import authMiddleware from '../middlewares/auth';
+import basicAuthMiddleware from '../middlewares/basic-auth';
 import { validateBody } from '../middlewares/validate-body';
 import { AppRequest } from '../services/express';
 
@@ -28,7 +29,7 @@ export const orderController = (app: Express) => {
     res.json(orders);
   });
 
-  app.post('/admin/orders/:orderId/state', authMiddleware(true),
+  app.post('/admin/orders/:orderId/state', basicAuthMiddleware,
     validateBody(SetOrderStateDto),
     async (req: AppRequest<{ orderId: string }, SetOrderStateDto>, res) => {
       const orders = await orderService.setOrderState(+req.params.orderId, req.payload.state);

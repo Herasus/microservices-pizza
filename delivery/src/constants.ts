@@ -9,3 +9,5 @@ export const JWT_SECRET = process.env.JWT_SECRET ?? 'app';
 
 export const AUTH_API_URL = process.env.AUTH_API_URL ?? '';
 export const ORDER_API_URL = process.env.ORDER_API_URL ?? '';
+export const ORDER_USERNAME = process.env.ORDER_USERNAME ?? '';
+export const ORDER_PASSWORD = process.env.ORDER_PASSWORD ?? '';

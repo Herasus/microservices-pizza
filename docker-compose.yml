@@ -17,6 +17,8 @@ services:
       - JWT_SECRET=kwPXhFx9sYMjNF7ajg1qrpn2jtFUWdKa
       - ADMIN_USER_EMAIL=admin@pizzafast.fr
       - ADMIN_USER_PASSWORD=admin
+      - WAIT_HOSTS=auth-db:3306
+      - WAIT_HOSTS_TIMEOUT=900
     ports:
       - "4300:80"
   pizza-db:
@@ -55,6 +57,8 @@ services:
       - BANK_API_URL=http://bank
       - BANK_USERNAME=bank
       - BANK_PASSWORD=banque123
+      - BASIC_AUTH_USERNAME=order
+      - BASIC_AUTH_PASSWORD=order123
     ports:
       - "4302:80"
   bank-db:
@@ -90,6 +94,8 @@ services:
       - MYSQL_DATABASE=pizza_delivery
       - AUTH_API_URL=http://auth
       - ORDER_API_URL=http://order
+      - ORDER_USERNAME=order
+      - ORDER_PASSWORD=order123
     ports:
       - "4304:80"
   gateway:
